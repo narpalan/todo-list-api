@@ -1,0 +1,19 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: ubistart-mysql-todo-list
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root          # senha do root
+      MYSQL_DATABASE: ubistart_todo      # nome do banco 
+      MYSQL_USER: ubistart_todo_list     # usuário da aplicação
+      MYSQL_PASSWORD: ubistart_todo_list_secure_password        # senha do usuário da aplicação
+    ports:
+      - "3307:3306"                       
+    volumes:
+      - mysql_data:/var/lib/mysql        # volume para persistir os dados    
+
+volumes:
+  mysql_data:
+    name: ubistart_mysql_data
+    driver: local
