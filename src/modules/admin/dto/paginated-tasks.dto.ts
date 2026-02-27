@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Task } from '@prisma/client';
 
-class TodoWithUserEmail {
+class TaskWithUserEmail {
   @ApiProperty()
   id: string;
 
@@ -30,9 +30,9 @@ class TodoWithUserEmail {
   userEmail: string; 
 }
 
-export class PaginatedTodosResponseDto {
-  @ApiProperty({ type: [TodoWithUserEmail] })
-  data: TodoWithUserEmail[];
+export class PaginatedTasksResponseDto {
+  @ApiProperty({ type: [TaskWithUserEmail] })
+  data: TaskWithUserEmail[];
 
   @ApiProperty()
   meta: {
