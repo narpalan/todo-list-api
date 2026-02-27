@@ -26,7 +26,9 @@ export class TasksService {
     const now = new Date();
     return tasks.map(task => ({
       ...task,
-      overdue: !task.completed && task.dueDate < now,
+      overdue: task.completed
+        ? (task.completedAt && task.completedAt > task.dueDate)
+        : task.dueDate < now,
     }));
   }
 
