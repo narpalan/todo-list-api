@@ -18,7 +18,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../../decorators/current-user.decorator';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import type { UserPayload } from '../auth/interfaces/user-payload.interface';
+import type { UserPayload } from '../../interfaces/user-payload.interface';
 
 @ApiTags('tasks')
 @ApiBearerAuth()
