@@ -2,7 +2,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsInt, Min, IsBoolean } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-export class FindAllTasksQueryDto {
+export class FindTasksQueryDto {
   @ApiPropertyOptional({ default: 1, description: 'Número da página' })
   @IsOptional()
   @IsInt()
