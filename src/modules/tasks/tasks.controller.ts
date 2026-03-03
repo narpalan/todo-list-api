@@ -18,6 +18,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../../decorators/current-user.decorator';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import type { UserPayload } from '../auth/interfaces/user-payload.interface';
 
 @ApiTags('tasks')
 @ApiBearerAuth()
@@ -28,13 +29,13 @@ export class TasksController {
 
   @Post()
   @ApiOperation({ summary: 'Criar uma nova tarefa' })
-  create(@CurrentUser() user: any, @Body() dto: CreateTaskDto) {
+  create(@CurrentUser() user: UserPayload, @Body() dto: CreateTaskDto) {
     return this.tasksService.create(user.id, dto);
   }
 
   @Get()
   @ApiOperation({ summary: 'Listar todas as tarefas do usuário logado' })
-  findAll(@CurrentUser() user: any) {
+  findAll(@CurrentUser() user: UserPayload) {
     return this.tasksService.findAllByUser(user.id);
   }
 
@@ -50,7 +51,7 @@ export class TasksController {
 
   @Patch(':id/complete')
   @ApiOperation({ summary: 'Marcar tarefa como concluída' })
-  complete(@Param('id') id: string, @CurrentUser() user: any) {
+  complete(@Param('id') id: string, @CurrentUser() user: UserPayload) {
     return this.tasksService.complete(id, user.id);
   }
 }
