@@ -18,6 +18,8 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../../decorators/current-user.decorator';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { TaskResponseDto } from './dto/task-response.dto';
+import { TaskWithOverdueResponseDto } from './dto/task-overdue-response.dto';
 import type { UserPayload } from '../../interfaces/user-payload.interface';
 
 @ApiTags('tasks')
@@ -35,15 +37,17 @@ export class TasksController {
 
   @Get()
   @ApiOperation({ summary: 'Listar todas as tarefas do usuário logado' })
+  @ApiResponse({ status: 200, type: [TaskWithOverdueResponseDto]})
   findAll(@CurrentUser() user: UserPayload) {
     return this.tasksService.findAllByUser(user.id);
   }
 
   @Patch(':id')
   @ApiOperation({ summary: 'Atualizar descrição e/ou prazo (apenas se não concluída)' })
+  @ApiResponse({ status: 200, type: TaskResponseDto })
   update(
     @Param('id') id: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: UserPayload,
     @Body() dto: UpdateTaskDto,
   ) {
     return this.tasksService.update(id, user.id, dto);
@@ -51,6 +55,7 @@ export class TasksController {
 
   @Patch(':id/complete')
   @ApiOperation({ summary: 'Marcar tarefa como concluída' })
+  @ApiResponse({ status: 200, type: TaskResponseDto })
   complete(@Param('id') id: string, @CurrentUser() user: UserPayload) {
     return this.tasksService.complete(id, user.id);
   }
