@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsDateString, IsNotEmpty, Validate } from 'class-validator';
-import { IsFutureDateConstraint } from './is-future-data.validator';
+import { IsFutureDateConstraint } from './is-future-date.validator';
 
 export class CreateTaskDto {
   @ApiProperty({ example: 'Estudar NestJS' })
