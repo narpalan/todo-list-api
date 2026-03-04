@@ -6,6 +6,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../../decorators/roles.decorator';
 import { Role } from '@prisma/client';
 import { PaginatedTasksResponseDto } from './dto/paginated-tasks.dto';
+import { FindTasksQueryDto } from './dto/find-tasks-query.dto';
 
 @ApiTags('admin')
 @ApiBearerAuth()
@@ -21,15 +22,11 @@ export class AdminController {
   @ApiQuery({ name: 'limit', required: false, example: 10 })
   @ApiQuery({ name: 'overdue', required: false, type: Boolean, description: 'Filtrar apenas atrasadas' })
   @ApiResponse({ status: 200, type: PaginatedTasksResponseDto })
-  async findAll(
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
-    @Query('overdue') overdue?: string,
-  ) {
+  async findAll(@Query() query: FindTasksQueryDto) {
 
-    const isOverdue = overdue === 'true';
+    const { page, limit, overdue } = query;    
 
-    if (isOverdue) {
+    if (overdue) {
       return this.adminService.findOverdueTasks(page, limit);
     }
     return this.adminService.findAllTasks(page, limit);
