@@ -4,14 +4,51 @@ services:
     container_name: ubistart-mysql-todo-list
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root          # senha do root
-      MYSQL_DATABASE: ubistart_todo      # nome do banco 
-      MYSQL_USER: ubistart_todo_list     # usuário da aplicação
-      MYSQL_PASSWORD: ubistart_todo_list_secure_password        # senha do usuário da aplicação
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "3307:3306"                       
+      - "3307:3306"
     volumes:
-      - mysql_data:/var/lib/mysql        # volume para persistir os dados    
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: ubistart-todo-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      JWT_SECRET: ${JWT_SECRET}
+      RUN_SEEDS: ${RUN_SEEDS}
+      ACTIVATE_SWAGGER: ${ACTIVATE_SWAGGER}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: >
+      sh -c "npx prisma migrate deploy &&
+             npx prisma db seed &&
+             npm run start:dev"
 
 volumes:
   mysql_data:
