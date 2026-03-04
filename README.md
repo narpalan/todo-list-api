@@ -61,31 +61,24 @@ src/
 Crie um arquivo `.env` na raiz do projeto baseado no `.env.example`:
 
 ```env
-# MySQL (para execução local)
+# MySQL
+MYSQL_ROOT_PASSWORD=
+MYSQL_DATABASE=
+MYSQL_USER=
+MYSQL_PASSWORD=
+
+# Aplicação
+DATABASE_URL=mysql://user:password@host:port/database
 DB_HOST=
 DB_PORT=
 DB_USER=
 DB_PASSWORD=
 DB_DATABASE=
-
-# Para Docker (dentro do container, o host é o nome do serviço)
-# DB_HOST=mysql
-# DB_PORT=3306
-
-# URL de conexão do Prisma (usada nas migrations)
-DATABASE_URL="mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}"
-
-# JWT
 JWT_SECRET=
-
-# Seeds
 RUN_SEEDS=true
+ACTIVATE_SWAGGER=YES
 ADMIN_EMAIL=
 ADMIN_PASSWORD=
-
-# Swagger
-ACTIVATE_SWAGGER=YES
-
 ```
 
 ## 🐳 Execução com Docker (Recomendado)
