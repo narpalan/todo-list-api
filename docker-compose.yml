@@ -4,10 +4,10 @@ services:
     container_name: ubistart-mysql-todo-list
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ubistart_todo
-      MYSQL_USER: ubistart_todo_list
-      MYSQL_PASSWORD: ubistart_todo_list_secure_password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3307:3306"
     volumes:
@@ -30,18 +30,18 @@ services:
       mysql:
         condition: service_healthy
     environment:
-      DATABASE_URL: mysql://ubistart_todo_list:ubistart_todo_list_secure_password@mysql:3306/ubistart_todo
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_USER: ubistart_todo_list
-      DB_PASSWORD: ubistart_todo_list_secure_password
-      DB_DATABASE: ubistart_todo
-      JWT_SECRET: ubistart_jwt_secret
-      RUN_SEEDS: "true"
-      ACTIVATE_SWAGGER: "YES"
-      ADMIN_EMAIL: admin@ubistart.com
-      ADMIN_PASSWORD: Admin123!
-           
+      DATABASE_URL: ${DATABASE_URL}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      JWT_SECRET: ${JWT_SECRET}
+      RUN_SEEDS: ${RUN_SEEDS}
+      ACTIVATE_SWAGGER: ${ACTIVATE_SWAGGER}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+
     volumes:
       - .:/app
       - /app/node_modules
