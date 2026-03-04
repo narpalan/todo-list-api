@@ -17,10 +17,7 @@ export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Get('tasks')
-  @ApiOperation({ summary: 'Listar todas as tarefas (apenas admin)' })
-  @ApiQuery({ name: 'page', required: false, example: 1 })
-  @ApiQuery({ name: 'limit', required: false, example: 10 })
-  @ApiQuery({ name: 'overdue', required: false, type: Boolean, description: 'Filtrar apenas atrasadas' })
+  @ApiOperation({ summary: 'Listar todas as tarefas (apenas admin)' })  
   @ApiResponse({ status: 200, type: PaginatedTasksResponseDto })
   async findAll(@Query() query: FindTasksQueryDto) {
 
