@@ -31,6 +31,7 @@ export class TasksController {
 
   @Post()
   @ApiOperation({ summary: 'Criar uma nova tarefa' })
+  @ApiResponse({ status: 201, type: TaskResponseDto })
   create(@CurrentUser() user: UserPayload, @Body() dto: CreateTaskDto) {
     return this.tasksService.create(user.id, dto);
   }
